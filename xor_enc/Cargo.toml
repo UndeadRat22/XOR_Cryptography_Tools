@@ -1,5 +1,5 @@
 [package]
-name = "XOR_Cryptography_Tools"
+name = "xor_enc"
 version = "0.1.0"
 authors = ["Valdas Rakutis <valdas@rakutis.lt>"]
 edition = "2018"
