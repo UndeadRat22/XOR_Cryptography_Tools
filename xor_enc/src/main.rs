@@ -1,16 +1,27 @@
 use std::env;
+use std::io;
+use std::io::prelude::*;
+use std::fs::File;
 
-fn main() {
+fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
 
-    let text = &args[1];
+    let file_name = &args[1].to_string();
     let key = &args[2];
 
-    let encrypted = xor_cypher(text.to_string(), key.to_string());
-    println!("{:?}", encrypted);
-    
-    let decrypted = xor_cypher(encrypted, key.to_string());
-    println!("{:?}", decrypted);
+    let mut file = File::open(file_name)?;
+    let mut file_content = String::new();
+    file.read_to_string(&mut file_content)?;
+
+    let cyphered = xor_cypher(file_content, key.to_string());
+    println!("{:?}", cyphered);
+
+    let mut file = File::create("C:\\Users\\Valdas\\Desktop\\result.bin")?;
+    file.write_all(cyphered.as_bytes())?;
+
+    file.sync_data()?;
+
+    Ok(())
 }
 
 fn xor_cypher(_text: String, _key: String) -> String {
